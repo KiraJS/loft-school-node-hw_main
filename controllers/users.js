@@ -15,7 +15,6 @@ module.exports.createUser = function(req, res) {
     surName: req.body.surName,
     id: uid(15),
     access_token: uid(15),
-    permission: req.body.permission,
     permissionId: uid(15),
     image: req.body.image
   });
@@ -84,8 +83,10 @@ module.exports.deleteUser = function (req, res) {
 };
 
 module.exports.updatePermission = function (req, res) {
+  console.log(req.body);
   let permissionId = req.body.permissionId;
   let permission = req.body.permission;
+
   Users.findOne({ permissionId: permissionId })
     .then(user => {
       for (let prop in permission.chat) {
@@ -125,3 +126,12 @@ module.exports.saveUserImage = function (req, res) {
 module.exports.authFromToken = function(req, res){
   // TODO
 }
+
+module.exports.getUserById = function (userId) {
+  return new Promise((resolve, reject) => {
+    User.findOne({ id: userId })
+      .then(item => {
+        resolve(item);
+      })
+  });
+};

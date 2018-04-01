@@ -42,19 +42,19 @@ let userSchema = new Schema({
   },
   permission: {
     chat: {
-      С: { type: Boolean },
+      C: { type: Boolean },
       R: { type: Boolean },
       U: { type: Boolean },
       D: { type: Boolean }
     },
     news: {
-      С: { type: Boolean },
+      C: { type: Boolean },
       R: { type: Boolean },
       U: { type: Boolean },
-      D: { type: Boolean }
+      D: { type: Boolean  }
     },
     setting: {
-      С: { type: Boolean },
+      C: { type: Boolean },
       R: { type: Boolean },
       U: { type: Boolean },
       D: { type: Boolean }
