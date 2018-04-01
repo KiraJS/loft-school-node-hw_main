@@ -1,7 +1,11 @@
+/* API SERVER */
+
 const express = require('express');
 const app = express();
 const path = require('path');
 const bodyParser = require('body-parser');
+const server = require('http').createServer(app);
+
 
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
@@ -22,6 +26,34 @@ app.use((err, req, res, next) => {
   res.status(500).json({err: '500'});
 });
 
-app.listen(3000, function() {
+server.listen(3000, function() {
   console.log('Server is running on port 3000');
+});
+
+
+/* SOCKET SERVER */
+
+const io = require('socket.io').listen(server);
+
+const sockets = {}
+
+io.sockets.on('connection', (socket) => {
+  const socketData = {
+    id: socket.id,
+    username: socket.handshake.headers.username
+  };
+  sockets[socket.id] = socketData;
+  socket.emit('all users', sockets);
+  socket.broadcast.emit('new user', socketData);
+
+  socket.on('chat message', (message, targetUser) => {
+    socket.broadcast
+      .to(targetUser)
+      .emit('chat message', message, socket.id);
+  });
+
+  socket.on('disconnect',  () => {
+    delete sockets[socket.id];
+    socket.broadcast.emit('delete user', socket.id);
+  });
 });

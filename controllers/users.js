@@ -129,7 +129,7 @@ module.exports.authFromToken = function(req, res){
 
 module.exports.getUserById = function (userId) {
   return new Promise((resolve, reject) => {
-    User.findOne({ id: userId })
+    Users.findOne({ id: userId })
       .then(item => {
         resolve(item);
       })
