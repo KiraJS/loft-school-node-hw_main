@@ -16,6 +16,7 @@ module.exports.createUser = function(req, res) {
     id: uid(15),
     access_token: uid(15),
     permissionId: uid(15),
+    permission: req.body.permission,
     image: req.body.image
   });
   User.password = User.setPassword(req.body.password);
@@ -31,7 +32,6 @@ module.exports.createUser = function(req, res) {
 module.exports.loginUser = function(req, res) {
   Users.findOne({ username: req.body.username })
     .then(user => {
-      console.log(req.body.remembered !== undefined, req.body.remembered);
       user.access_token = uid(15);
       user.save();
       req.body.remembered !== undefined && req.body.remembered ? res.cookie('access_token', user.access_token) : null;
@@ -87,7 +87,6 @@ module.exports.deleteUser = function (req, res) {
 };
 
 module.exports.updatePermission = function (req, res) {
-  console.log(req.body);
   let permissionId = req.body.permissionId;
   let permission = req.body.permission;
   Users.findOne({ permissionId: permissionId })
