@@ -31,6 +31,10 @@ module.exports.createUser = function(req, res) {
 module.exports.loginUser = function(req, res) {
   Users.findOne({ username: req.body.username })
     .then(user => {
+      console.log(req.body.remembered !== undefined, req.body.remembered);
+      user.access_token = uid(15);
+      user.save();
+      req.body.remembered !== undefined && req.body.remembered ? res.cookie('access_token', user.access_token) : null;
       return user.validatePassword(req.body.password) ? res.json(user) : res.status(400).json({ err: 'Неверный пароль' });
     })
     .catch(e =>{
@@ -123,12 +127,18 @@ module.exports.saveUserImage = function (req, res) {
 };
 
 module.exports.authFromToken = function(req, res){
-  // TODO
+  Users.findOne({ access_token: req.body.access_token })
+    .then(user => {
+      user ? res.json(user)  : res.status(404).json({ err: 'Пользователь не найден' });
+    })
+    .catch(e => {
+      res.status(400).json({ err: e.message });
+    });
 }
 
 module.exports.getUserById = function (userId) {
   return new Promise((resolve, reject) => {
-    User.findOne({ id: userId })
+    Users.findOne({ id: userId })
       .then(item => {
         resolve(item);
       })

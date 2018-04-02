@@ -11,6 +11,7 @@ getNews = function(req, res){
       items.forEach(function(item){
         item.user = usersCtrl.getUserById(item.userId);
       });
+      console.log(items);
       return res.json(items);
     }
   ).catch(e => {
