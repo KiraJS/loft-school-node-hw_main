@@ -86,7 +86,6 @@ module.exports.updatePermission = function (req, res) {
   console.log(req.body);
   let permissionId = req.body.permissionId;
   let permission = req.body.permission;
-
   Users.findOne({ permissionId: permissionId })
     .then(user => {
       for (let prop in permission.chat) {
@@ -129,7 +128,7 @@ module.exports.authFromToken = function(req, res){
 
 module.exports.getUserById = function (userId) {
   return new Promise((resolve, reject) => {
-    Users.findOne({ id: userId })
+    User.findOne({ id: userId })
       .then(item => {
         resolve(item);
       })

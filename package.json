@@ -11,8 +11,12 @@
     "express-router": "^0.0.1",
     "formidable": "^1.2.1",
     "fs": "0.0.1-security",
+    "jwt-simple": "^0.5.1",
     "mongoose": "^5.0.11",
     "multer": "^1.3.0",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0",
     "path": "^0.12.7",
     "socket.io": "^2.1.0",
     "uid": "0.0.2"
